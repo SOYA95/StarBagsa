@@ -323,13 +323,13 @@ Materialized View 를 구현하여, 타 마이크로서비스의 데이터 원�
 
 - 주문(ordered) 실행 후 SirenOrderHomes 화면
 
-![증빙2](https://user-images.githubusercontent.com/53815271/107907619-7e060280-6f97-11eb-89b3-4e3236ff9ddd.png)
+![image](https://user-images.githubusercontent.com/66457249/108207766-8747c880-716b-11eb-9861-7adcdd424bc7.png)
 
 - 주문(OrderCancelled) 취소 후 SirenOrderHomes 화면
 
-![증빙3](https://user-images.githubusercontent.com/53815271/107908429-5e6fd980-6f99-11eb-8afc-2a2c070a1663.png)
+![image](https://user-images.githubusercontent.com/66457249/108207845-9fb7e300-716b-11eb-9871-1a52a226ee02.png)
 
-위와 같이 주문을 하게되면 SirenOrder -> Payment -> Shop -> SirenOrder 로 주문이 Assigend 되고
+위와 같이 주문을 하게되면 SirenOrder -> Payment -> Shop (Delivery) ->  로 주문이 Assigend 되고
 
 주문 취소가 되면 Status가 refunded로 Update 되는 것을 볼 수 있다.
 
@@ -345,7 +345,7 @@ Shop 서비스의 DB와 SirenOrder의 DB를 다른 DB를 사용하여 폴리글�
 
 ![증빙5](https://user-images.githubusercontent.com/53815271/107909600-e2c35c00-6f9b-11eb-8ec4-e8ef46c07949.png)
 
-**SirenOrder의 pom.xml DB 설정 코드**
+**Delivery의 pom.xml DB 설정 코드**
 
 ![증빙4](https://user-images.githubusercontent.com/53815271/107909551-d17a4f80-6f9b-11eb-8af2-71b4d0112206.png)
 
