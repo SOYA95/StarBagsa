@@ -498,7 +498,7 @@ spec:
 # ConfigMap 
 - 시스템별로 변경 가능성이 있는 설정들을 ConfigMap을 사용하여 관리
 
-- application.yml 파일에 ${configurl} 설정
+- Payment application.yml 파일에 ${configurl} 설정
 
 ```yaml
       feign:
@@ -510,7 +510,7 @@ spec:
             execution.isolation.thread.timeoutInMilliseconds: 610
       api:
         url:
-          Payment: ${configurl}
+          Delivery: ${configurl}
 
 ```
 
