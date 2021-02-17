@@ -370,13 +370,9 @@ public interface DeliveryService {
 ```
 
 **동작 확인**
-- 잠시 Delivery 서비스 중지
+- Delivery 서비스 중지하고, 결제 발생시 에러 발생
 
-![증빙6](https://user-images.githubusercontent.com/53815271/107910391-a85abe80-6f9d-11eb-8dd5-6b7a4d1cdc01.png)
-
-- 주문(결제) 취소시 에러 발생
-
-![증빙7](https://user-images.githubusercontent.com/53815271/107910392-a8f35500-6f9d-11eb-98e4-2cf9fa2fbd46.png)
+![image](https://user-images.githubusercontent.com/66457249/108227066-d8ae8280-7180-11eb-88e8-06d9c5fd3398.png)
 
 - Delivery 서비스 재기동 후 정상동작 확인
 
