@@ -21,7 +21,7 @@
 
 # Event Storming 결과
 
-![EventStormingV1](https://user-images.githubusercontent.com/53815271/107929718-66417500-6fbd-11eb-9754-5dd92a06afe5.png)
+![image](https://user-images.githubusercontent.com/66457249/108202084-f3263300-7163-11eb-860d-db198b1063ba.png)
 
 # 헥사고날 아키텍처 다이어그램 도출
 
