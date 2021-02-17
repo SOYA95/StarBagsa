@@ -422,6 +422,10 @@ kubectl create deploy shop --image=skteam01.azurecr.io/sirenorderhome:v1 -n tuto
 kubectl expose deploy shop --type=ClusterIP --port=8080 -n tutorial
 
 cd ..
+cd sirenorder
+az acr build --registry skteam01 --image skteam01.azurecr.io/sirenorderhome:v1 .
+
+cd ..
 cd sirenorderhome
 az acr build --registry skteam01 --image skteam01.azurecr.io/sirenorderhome:v1 .
 
@@ -432,21 +436,21 @@ kubectl expose deploy sirenorderhome --type=ClusterIP --port=8080 -n tutorial
 - yml파일 이용한 deploy
 ```
 cd ..
-cd SirenOrder
-az acr build --registry skteam01 --image skteam01.azurecr.io/sirenorder:v1 .
+cd Delivery
+az acr build --registry user05 --image user05.azurecr.io/delivery:v1 .
 ```
-![증빙7](https://user-images.githubusercontent.com/77368578/107920373-35a70e80-6fb0-11eb-8024-a6fc42fea93f.png)
+![delivery_depoly](https://user-images.githubusercontent.com/66457249/108160670-dde1e200-712c-11eb-8d4e-ecbfa4e008ee.PNG)
 
 ```
-kubectl expose deploy shop --type=ClusterIP --port=8080 -n tutorial
+kubectl expose deploy delivery --type=ClusterIP --port=8080 -n tutorial
 ```
 
-- winterone/SirenOrder/kubernetes/deployment.yml 파일 
+- winterone/Delivery/kubernetes/deployment.yml 파일 
 ```yml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sirenorder
+  name: delivery
   namespace: tutorial
   labels:
     app: sirenorder
@@ -454,15 +458,15 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: sirenorder
+      app: delivery
   template:
     metadata:
       labels:
-        app: sirenorder
+        app: delivery
     spec:
       containers:
-        - name: sirenorder
-          image: hispres.azurecr.io/sirenorder:v4
+        - name: delivery
+          image: hispres.azurecr.io/delivery:v1
           ports:
             - containerPort: 8080
           env:
