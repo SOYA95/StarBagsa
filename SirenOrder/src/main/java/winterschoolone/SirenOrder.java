@@ -1,12 +1,15 @@
 package winterschoolone;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
+import javax.persistence.PreRemove;
+import javax.persistence.Table;
+
 import org.springframework.beans.BeanUtils;
-
-import winterschoolone.external.Payment;
-import winterschoolone.external.PaymentService;
-
-import java.util.List;
 
 @Entity
 @Table(name="SirenOrder_table")
@@ -29,14 +32,14 @@ public class SirenOrder {
         //Following code causes dependency to external APIs
         // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
 
-        Payment payment = new Payment();
-        payment.setOrderId(this.getId());
-        payment.setMenuId(this.menuId);
-        payment.setQty(this.getQty());
-        payment.setUserId(this.getUserId());
-        // mappings goes here
-        SirenOrderApplication.applicationContext.getBean(PaymentService.class)
-        .pay(payment);
+//        Payment payment = new Payment();
+//        payment.setOrderId(this.getId());
+//        payment.setMenuId(this.menuId);
+//        payment.setQty(this.getQty());
+//        payment.setUserId(this.getUserId());
+//        // mappings goes here
+//        SirenOrderApplication.applicationContext.getBean(PaymentService.class)
+//        .pay(payment);
     }
 
     @PostUpdate
