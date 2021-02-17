@@ -341,7 +341,7 @@ Materialized View 를 구현하여, 타 마이크로서비스의 데이터 원�
 
 # 폴리글랏
 
-Shop 서비스의 DB와 SirenOrder의 DB를 다른 DB를 사용하여 폴리글랏을 만족시키고 있다.
+Shop 서비스의 DB와 Delivery의 DB를 다른 DB를 사용하여 폴리글랏을 만족시키고 있다.
 
 **Shop의 pom.xml DB 설정 코드**
 
@@ -353,10 +353,11 @@ Shop 서비스의 DB와 SirenOrder의 DB를 다른 DB를 사용하여 폴리글�
 
 # 동기식 호출 과 Fallback 처리
 
-분석단계에서의 조건 중 하나로 주문(SirenOrder)->결제(pay) 간의 호출은 동기식 일관성을 유지하는 트랜잭션으로 처리하기로 하였다. 호출 프로토콜은 Rest Repository 에 의해 노출되어있는 REST 서비스를 FeignClient 를 이용하여 호출하도록 한다.
+분석단계에서의 조건 중 하나로 결제(Payment)취소->배송(Delivery)취소 간의 호출은 동기식 일관성을 유지하는 트랜잭션으로 처리하기로 하였다. 호출 프로토콜은 Rest Repository 에 의해 노출되어있는 REST 서비스를 FeignClient 를 이용하여 호출하도록 한다.
 
-**SirenOrder 서비스 내 external.PaymentService**
+**Payment 서비스 내 external.DeliveryService**
 ```java
+
 package winterschoolone.external;
 
 import org.springframework.cloud.openfeign.FeignClient;
@@ -366,25 +367,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Date;
 
-@FeignClient(name="Payment", url="${api.url.Payment}")
-public interface PaymentService {
+@FeignClient(name="Delivery", url="${api.url.Delivery}")
+public interface DeliveryService {
 
-    @RequestMapping(method= RequestMethod.POST, path="/payments")
-    public void pay(@RequestBody Payment payment);
+    @RequestMapping(method= RequestMethod.DELETE, path="/deliveries")
+    public void deliveryCancel(@RequestBody Delivery delivery);
 
 }
 ```
 
 **동작 확인**
-- 잠시 Payment 서비스 중시
+- 잠시 Delivery 서비스 중지
 
 ![증빙6](https://user-images.githubusercontent.com/53815271/107910391-a85abe80-6f9d-11eb-8dd5-6b7a4d1cdc01.png)
 
-- 주문 요청시 에러 발생
+- 주문(결제) 취소시 에러 발생
 
 ![증빙7](https://user-images.githubusercontent.com/53815271/107910392-a8f35500-6f9d-11eb-98e4-2cf9fa2fbd46.png)
 
-- Payment 서비스 재기동 후 정상동작 확인
+- Delivery 서비스 재기동 후 정상동작 확인
 
 ![증빙8](https://user-images.githubusercontent.com/53815271/107910393-a98beb80-6f9d-11eb-833f-150d11f51067.png)
 ![증빙9](https://user-images.githubusercontent.com/53815271/107910394-a98beb80-6f9d-11eb-841c-aa6ab38cf99b.png)
