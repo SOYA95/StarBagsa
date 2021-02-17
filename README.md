@@ -536,8 +536,7 @@ public interface DeliveryService {
 ```
 kubectl create configmap apiurl --from-literal=url=http://10.0.149.102:8080 -n tutorial
 ```
-
-   ![image](https://user-images.githubusercontent.com/74236548/107968395-aa4e6d00-6ff1-11eb-9112-2f1d77a561ad.png)
+  ![image](https://user-images.githubusercontent.com/66457249/108236861-b4f03a00-718a-11eb-9037-78d11559d77e.png)
 
 # 오토스케일 아웃
 
