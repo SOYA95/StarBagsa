@@ -529,33 +529,7 @@ public interface DeliveryService {
 
 - Deployment.yml 에 ConfigMap 적용
 
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: payment
-  labels:
-    app: Payment
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: payment
-  template:
-    metadata:
-      labels:
-        app: payment
-    spec:
-      containers:
-        - name: payment
-          image: skuser05.azurecr.io/payment:v1
-          ports:
-            - containerPort: 8080
-          env:
-            - name: configurl
-              valueFrom:
-                configMapKeyRef:
-                  name: apiurl
-                  key: url
+![image](https://user-images.githubusercontent.com/66457249/108235508-3941bd80-7189-11eb-8ed1-14f1738ef3f2.png)
 
 - ConfigMap 생성
 
