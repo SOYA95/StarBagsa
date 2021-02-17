@@ -2,13 +2,14 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: payment
+  namespace: tutorial
   labels:
-    app: Payment
+    app: payment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: payment
+      app: shop
   template:
     metadata:
       labels:
@@ -16,12 +17,22 @@ spec:
     spec:
       containers:
         - name: payment
-          image: skuser05.azurecr.io/payment:v1
+          image: skuser01.azurecr.io/payment:v1
           ports:
             - containerPort: 8080
-          env:
-            - name: configurl
-              valueFrom:
-                configMapKeyRef:
-                  name: apiurl
-                  key: url
+          readinessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5
