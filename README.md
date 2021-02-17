@@ -11,7 +11,7 @@
 
 ### 비기능적 요구사항
 1. 트랜잭션
-    1. 주문 취소시 배송도 취소되어야 한다. → Sync 호출
+    1. 주문시 배송도 되어야 한다. → Sync 호출
 1. 장애격리
     1. 결제시스템에서 장애가 발생해도 주문은 받을 수 있어야한다 → Async (event-driven), Eventual Consistency
     1. 주문량이 많아 결재시스템 과중되면 잠시 주문을 받지 않고 잠시후에 하도록 유도한다 → Circuit breaker, fallback
@@ -20,7 +20,7 @@
 
 # Event Storming 결과
 
-![image](https://user-images.githubusercontent.com/66457249/108202084-f3263300-7163-11eb-860d-db198b1063ba.png)
+![image](https://user-images.githubusercontent.com/66457249/108225936-c54ee780-717f-11eb-8da6-89991b655732.png)
 
 # 헥사고날 아키텍처 다이어그램 도출
 
@@ -92,12 +92,6 @@ public class Delivery {
         deliveryStarted.publishAfterCommit();
     }
 	
-    @PreRemove
-    public void onPreRemove(){
-        DeliveryCancelled deliveryCancelled = new DeliveryCancelled();
-        BeanUtils.copyProperties(this, deliveryCancelled);
-        deliveryCancelled.publishAfterCommit();
-    }
     
     public String getStatus() {
 		return Status;
@@ -175,6 +169,7 @@ public class Delivery {
 
 }
 
+
 ```
 
 **Delivery 서비스의 PolicyHandler.java**
@@ -200,19 +195,18 @@ public class PolicyHandler{
     @Autowired
     DeliveryRepository deliverRepository;
     
+    
     @StreamListener(KafkaProcessor.INPUT)
-    public void wheneverPayed_(@Payload Payed payed){
+    public void wheneverRefunded_(@Payload Refunded refunded){
 
-    	if(payed.isMe()){
-            System.out.println("##### listener  : " + payed.toJson());
+    	if(refunded.isMe()){
+    		
+    		Delivery delivery = new Delivery();
+    	
+    		delivery.setId(refunded.getId());
+    		deliverRepository.delete(delivery);
+
             
-            Delivery delivery = new Delivery();
-            delivery.setMenuId(payed.getMenuId());
-            delivery.setOrderId(payed.getOrderId());
-            delivery.setQty(payed.getQty());
-            delivery.setUserId(payed.getUserId());
-            
-            deliverRepository.save(delivery);
         }
     }
 
@@ -331,7 +325,7 @@ Materialized View 를 구현하여, 타 마이크로서비스의 데이터 원�
 
 ![image](https://user-images.githubusercontent.com/66457249/108207845-9fb7e300-716b-11eb-9871-1a52a226ee02.png)
 
-위와 같이 주문을 하게되면 SirenOrder -> Payment -> Shop (Delivery) ->  로 주문이 Assigend 되고
+위와 같이 주문을 하게되면 SirenOrder -> Payment -> Shop, Delivery ->  로 주문이 Assigend 되고
 
 주문 취소가 되면 Status가 refunded로 Update 되는 것을 볼 수 있다.
 
@@ -365,15 +359,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.Date;
-
 @FeignClient(name="Delivery", url="${api.url.Delivery}")
 public interface DeliveryService {
 
-    @RequestMapping(method= RequestMethod.DELETE, path="/deliveries")
-    public void deliveryCancel(@RequestBody Delivery delivery);
-
+    @RequestMapping(method= RequestMethod.POST, path="/deliveries")
+    public void deliveryStart(@RequestBody Delivery delivery);    
+	
 }
+
 ```
 
 **동작 확인**
