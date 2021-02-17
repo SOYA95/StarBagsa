@@ -514,17 +514,17 @@ spec:
 
 ```
 
-- ConfigMap 사용(/SirenOrder/src/main/java/winterschoolone/external/PaymentService.java) 
+- ConfigMap 사용(/Payment/src/main/java/winterschoolone/external/DeliveryService.java) 
 
 ```java
 
-      @FeignClient(name="Payment", url="${api.url.Payment}")
-      public interface PaymentService {
-      
-	      @RequestMapping(method= RequestMethod.POST, path="/payments")
-              public void pay(@RequestBody Payment payment);
-	      
-      }
+@FeignClient(name="Delivery", url="${api.url.Delivery}")
+public interface DeliveryService {
+
+    @RequestMapping(method= RequestMethod.POST, path="/deliveries")
+    public void deliveryStart(@RequestBody Delivery delivery);    
+	
+}
 ```
 
 - Deployment.yml 에 ConfigMap 적용
