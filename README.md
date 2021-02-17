@@ -224,7 +224,8 @@ public class PolicyHandler{
   
 - 원격 주문 -> Delivery 동작 후 결과
 
-![증빙1](https://user-images.githubusercontent.com/53815271/107907569-64fd5180-6f97-11eb-9f1e-cb1fb97fd4ff.png)
+![image](https://user-images.githubusercontent.com/66457249/108206638-00462080-716a-11eb-8afe-5284e4779850.png)
+
 
 # GateWay 적용
 API GateWay를 통하여 마이크로 서비스들의 집입점을 통일할 수 있다.
@@ -241,6 +242,10 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: Delivery
+          uri: http://localhost:8085
+          predicates:
+            - Path= /deliveries/**
         - id: SirenOrder
           uri: http://localhost:8081
           predicates:
@@ -276,6 +281,10 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: Delivery
+          uri: http://Delivery:8080
+          predicates:
+            - Path=/deliveries/*
         - id: SirenOrder
           uri: http://SirenOrder:8080
           predicates:
