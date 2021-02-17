@@ -54,7 +54,7 @@ msaez.io 를 통해 구현한 Aggregate 단위로 Entity 를 선언 후, 구현�
 
 Entity Pattern 과 Repository Pattern 을 적용하기 위해 Spring Data REST 의 RestRepository 를 적용하였다.
 
-**SirenOrder 서비스의 SirenOrder.java**
+**Delivery 서비스의 Delivery.java**
 
 ```java 
 package winterschoolone;
@@ -177,21 +177,18 @@ public class Delivery {
 
 ```
 
-**SirenOrder 서비스의 PolicyHandler.java**
+**Delivery 서비스의 PolicyHandler.java**
 ```java
 package winterschoolone;
 
-import winterschoolone.config.kafka.KafkaProcessor;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
+
+import winterschoolone.config.kafka.KafkaProcessor;
 
 @Service
 public class PolicyHandler{
@@ -201,33 +198,31 @@ public class PolicyHandler{
     }
     
     @Autowired
-	SirenOrderRepository sirenOrderRepository;
-
+    DeliveryRepository deliverRepository;
+    
     @StreamListener(KafkaProcessor.INPUT)
-    public void wheneverAssigned_(@Payload Assigned assigned){
+    public void wheneverPayed_(@Payload Payed payed){
 
-        if(assigned.isMe()){
-        	Optional<SirenOrder> optional = sirenOrderRepository.findById(assigned.getOrderId());
-        	if(optional != null && optional.isPresent())
-        	{
-        		SirenOrder sirenOrder = optional.get();
-        		
-        		sirenOrder.setStatus("Assigned");
-                // view 객체에 이벤트의 eventDirectValue 를 set 함
-                // view 레파지 토리에 save
-            	sirenOrderRepository.save(sirenOrder);
-        	}
+    	if(payed.isMe()){
+            System.out.println("##### listener  : " + payed.toJson());
             
-            System.out.println("##### listener  : " + assigned.toJson());
+            Delivery delivery = new Delivery();
+            delivery.setMenuId(payed.getMenuId());
+            delivery.setOrderId(payed.getOrderId());
+            delivery.setQty(payed.getQty());
+            delivery.setUserId(payed.getUserId());
+            
+            deliverRepository.save(delivery);
         }
     }
 
 }
+
 ```
 
 - DDD 적용 후 REST API의 테스트를 통하여 정상적으로 동작하는 것을 확인할 수 있었다.  
   
-- 원격 주문 (SirenOrder 동작 후 결과)
+- 원격 주문 -> Delivery 동작 후 결과
 
 ![증빙1](https://user-images.githubusercontent.com/53815271/107907569-64fd5180-6f97-11eb-9f1e-cb1fb97fd4ff.png)
 
