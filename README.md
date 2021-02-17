@@ -579,7 +579,7 @@ kubectl get all -n tutorial
   유지되면 CB 회로가 닫히도록(요청을 빠르게 실패처리, 차단) 설정
 
 - 동기 호출 주체인 SirenOrder에서 Hystrix 설정 
-- SirenOrder/src/main/resources/application.yml 파일
+- Payment/src/main/resources/application.yml 파일
 ```yaml
 feign:
   hystrix:
@@ -591,30 +591,28 @@ hystrix:
 ```
 
 - 부하에 대한 지연시간 발생코드
-- winterone/SirenOrder/src/main/java/winterschoolone/external/PaymentService.java
+- winterone/Payment\src\main\java\winterschoolone\Payment.java
 ``` java
-    @PostPersist
     public void onPostPersist(){
-        Payed payed = new Payed();
+        Payed payed = new Payed();  
         BeanUtils.copyProperties(this, payed);
         payed.publishAfterCommit();
         
         try {
-                Thread.currentThread().sleep((long) (400 + Math.random() * 220));
-        } catch (InterruptedException e) {
-                e.printStackTrace();
-        }
-    }
+            Thread.currentThread().sleep((long) (400 + Math.random() * 220));
+	    } catch (InterruptedException e) {
+	            e.printStackTrace();
+	    }
 ```
 
 - 부하 테스터 siege툴을 통한 서킷 브레이커 동작확인 :
   
   동시 사용자 100명, 60초 동안 실시 
 ```
-siege -c100 -t60S -r10 -v --content-type "application/json" 'http://10.0.14.180:8080/sirenOrders 
+siege -c100 -t60S -r10 -v --content-type "application/json" 'http://10.0.119.240:8080/payments
 POST {"userId": "user10", "menuId": "menu10", "qty":10}'
 ```
-- 부하 발생하여 CB가 발동하여 요청 실패처리하였고, 밀린 부하가 다시 처리되면서 SirenOrders를 받기 시작
+- 부하 발생하여 CB가 발동하여 요청 실패처리하였고, 밀린 부하가 다시 처리되면서 Payments를 받기 시작
 
 ![증빙10](https://user-images.githubusercontent.com/77368578/107917672-a8fa5180-6fab-11eb-9864-69af16a94e5e.png)
 
