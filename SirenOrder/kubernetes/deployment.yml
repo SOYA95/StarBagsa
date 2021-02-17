@@ -1,23 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sirenorder
-  namespace: tutorial
+  name: SirenOrder
   labels:
-    app: sirenorder
+    app: SirenOrder
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: sirenorder
+      app: SirenOrder
   template:
     metadata:
       labels:
-        app: sirenorder
+        app: SirenOrder
     spec:
       containers:
-        - name: sirenorder
-          image: hispres.azurecr.io/sirenorder:v4
+        - name: SirenOrder
+          image: username/SirenOrder:latest
           ports:
             - containerPort: 8080
           env:
