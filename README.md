@@ -30,9 +30,6 @@
 # 구현
 분석/설계 단계에서 도출된 헥사고날 아키텍처에 따라, 구현한 각 서비스를 로컬에서 실행하는 방법은 아래와 같다 (각자의 포트넘버는 8081 ~ 8085 ( 8085추가), 8088 이다)
 ```
-cd Delivery (추가)
-mvn spring-boot:run
-
 cd SirenOrder
 mvn spring-boot:run  
 
@@ -47,6 +44,9 @@ mvn spring-boot:run
 
 cd gateway
 mvn spring-boot:run  
+
+cd Delivery
+mvn spring-boot:run
 ```
 
 ## DDD 의 적용
@@ -236,10 +236,6 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: Delivery
-          uri: http://localhost:8085
-          predicates:
-            - Path= /deliveries/**
         - id: SirenOrder
           uri: http://localhost:8081
           predicates:
@@ -256,6 +252,10 @@ spring:
           uri: http://localhost:8084
           predicates:
             - Path= /sirenOrderHomes/**
+        - id: Delivery
+          uri: http://localhost:8085
+          predicates:
+            - Path= /deliveries/**
       globalcors:
         corsConfigurations:
           '[/**]':
@@ -492,7 +492,7 @@ spec:
                   key: url
 ```	  
 - deploy 완료
-
+![image](https://user-images.githubusercontent.com/66457249/108244375-7fe7e580-7192-11eb-8399-536522cbe102.png)
 
 
 
