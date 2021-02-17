@@ -37,6 +37,9 @@ logging:
     org.springframework.cloud: debug
 server:
   port: 8082
+api:
+  url:
+    Delivery: http://localhost:8085
 ---
 
 spring:
@@ -62,3 +65,6 @@ spring:
         event-out:
           destination: winterschoolone
           contentType: application/json
+api:
+  url:
+    Delivery: ${configurl}
