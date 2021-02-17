@@ -493,7 +493,7 @@ spec:
 ```	  
 - deploy 완료
 
-![image](https://user-images.githubusercontent.com/66457249/108242238-08b15200-7190-11eb-8350-e7d790b8cce1.png)
+
 
 
 # ConfigMap 
