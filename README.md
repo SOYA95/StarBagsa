@@ -316,6 +316,8 @@ server:
   port: 8080
 
 ```
+8088로 호출해도, delivery 포트인 8085를 호출한다.
+![image](https://user-images.githubusercontent.com/66457249/108208599-93805580-716c-11eb-8f5a-5f0f270c5f6a.png)
 
 # CQRS
 Materialized View 를 구현하여, 타 마이크로서비스의 데이터 원본에 접근없이(Composite 서비스나 조인SQL 등 없이) 도 내 서비스의 화면 구성과 잦은 조회가 가능하게 구현해 두었다.
