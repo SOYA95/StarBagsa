@@ -1,23 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: delivery
-  namespace: tutorial
+  name: Delivery
   labels:
-    app: delivery
+    app: Delivery
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: delivery
+      app: Delivery
   template:
     metadata:
       labels:
-        app: delivery
+        app: Delivery
     spec:
       containers:
-        - name: delivery
-          image: hispres.azurecr.io/delivery:v4
+        - name: Delivery
+          image: hispres.azurecr.io/delivery:v1
           ports:
             - containerPort: 8080
           env:
