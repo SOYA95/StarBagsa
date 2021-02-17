@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: payment
   labels:
-    app: payment
+    app: Payment
 spec:
   replicas: 1
   selector:
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: payment
-          image: hispres.azurecr.io/payment:v1
+          image: skuser05.azurecr.io/payment:v1
           ports:
             - containerPort: 8080
           env:
