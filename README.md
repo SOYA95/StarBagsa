@@ -369,10 +369,14 @@ public interface PaymentService {
 
 - git에서 소스 가져오기
 ```
-git clone https://github.com/hispres/winterone.git
+git clone https://github.com/SOYA95/starbagsa.git
 ```
 - Build 하기
 ```
+cd ..
+cd Delivery
+mvn package
+
 cd /winterone
 cd gateway
 mvn package
