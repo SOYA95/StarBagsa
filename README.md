@@ -59,63 +59,102 @@ Entity Pattern 과 Repository Pattern 을 적용하기 위해 Spring Data REST �
 ```java 
 package winterschoolone;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
+import javax.persistence.PreRemove;
+import javax.persistence.Table;
+
 import org.springframework.beans.BeanUtils;
 
-import winterschoolone.external.Payment;
-import winterschoolone.external.PaymentService;
-
-import java.util.List;
-
 @Entity
-@Table(name="SirenOrder_table")
-public class SirenOrder {
+@Table(name="Delivery_table")
+public class Delivery {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
+	private Long orderId;
     private String userId;
     private String menuId;
     private Integer qty;
-    private String status;
+    private String cancelYn;
+    private String deliveryYn;
+    private String Status;
 
-    @PostPersist
+	@PostPersist
     public void onPostPersist(){
-    	Ordered ordered = new Ordered();
-        BeanUtils.copyProperties(this, ordered);
-        ordered.publishAfterCommit();
-
-        //Following code causes dependency to external APIs
-        // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
-
-        Payment payment = new Payment();
-        payment.setOrderId(this.getId());
-        payment.setMenuId(this.menuId);
-        payment.setQty(this.getQty());
-        payment.setUserId(this.getUserId());
-        // mappings goes here
-        SirenOrderApplication.applicationContext.getBean(PaymentService.class)
-        .pay(payment);
+        DeliveryStarted deliveryStarted = new DeliveryStarted();
+        BeanUtils.copyProperties(this, deliveryStarted);
+        deliveryStarted.publishAfterCommit();
     }
-
-    @PostUpdate
-    public void onPostUpdate(){
-        Updated updated = new Updated();
-        BeanUtils.copyProperties(this, updated);
-        updated.publishAfterCommit();
-
-
-    }
-
+	
     @PreRemove
     public void onPreRemove(){
-        OrderCancelled orderCancelled = new OrderCancelled();
-        BeanUtils.copyProperties(this, orderCancelled);
-        orderCancelled.publishAfterCommit();
-
-
+        DeliveryCancelled deliveryCancelled = new DeliveryCancelled();
+        BeanUtils.copyProperties(this, deliveryCancelled);
+        deliveryCancelled.publishAfterCommit();
     }
+    
+    public String getStatus() {
+		return Status;
+	}
 
+	public void setStatus(String status) {
+		Status = status;
+	}
+
+    public Long getOrderId() {
+		return orderId;
+	}
+
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
+	}
+
+
+	public String getUserId() {
+		return userId;
+	}
+
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+
+	public String getMenuId() {
+		return menuId;
+	}
+
+
+	public void setMenuId(String menuId) {
+		this.menuId = menuId;
+	}
+
+
+	public Integer getQty() {
+		return qty;
+	}
+
+
+	public void setQty(Integer qty) {
+		this.qty = qty;
+	}
+
+
+	public String getCancelYn() {
+		return cancelYn;
+	}
+
+
+	public void setCancelYn(String cancelYn) {
+		this.cancelYn = cancelYn;
+	}
 
     public Long getId() {
         return id;
@@ -124,36 +163,18 @@ public class SirenOrder {
     public void setId(Long id) {
         this.id = id;
     }
-    public String getUserId() {
-        return userId;
-    }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-    public String getMenuId() {
-        return menuId;
-    }
+    public String getDeliveryYn() {
+		return deliveryYn;
+	}
 
-    public void setMenuId(String menuId) {
-        this.menuId = menuId;
-    }
-    public Integer getQty() {
-        return qty;
-    }
+	public void setDeliveryYn(String deliveryYn) {
+		this.deliveryYn = deliveryYn;
+	}
 
-    public void setQty(Integer qty) {
-        this.qty = qty;
-    }
-    public String getStatus() {
-        return status;
-    }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-    
 }
+
 ```
 
 **SirenOrder 서비스의 PolicyHandler.java**
