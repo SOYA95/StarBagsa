@@ -481,7 +481,7 @@ spec:
     spec:
       containers:
         - name: delivery
-          image: hispres.azurecr.io/delivery:v1
+          image: skuser05.azurecr.io/delivery:v1
           ports:
             - containerPort: 8080
           env:
@@ -493,7 +493,8 @@ spec:
 ```	  
 - deploy 완료
 
-![전체 MSA](https://user-images.githubusercontent.com/77368578/108006011-992b4d80-703d-11eb-8df9-a2cea19aa693.png)
+![image](https://user-images.githubusercontent.com/66457249/108242238-08b15200-7190-11eb-8350-e7d790b8cce1.png)
+
 
 # ConfigMap 
 - 시스템별로 변경 가능성이 있는 설정들을 ConfigMap을 사용하여 관리
@@ -537,6 +538,9 @@ public interface DeliveryService {
 kubectl create configmap apiurl --from-literal=url=http://10.0.149.102:8080 -n tutorial
 ```
   ![image](https://user-images.githubusercontent.com/66457249/108236861-b4f03a00-718a-11eb-9037-78d11559d77e.png)
+
+
+======================================================================================================================
 
 # 오토스케일 아웃
 
