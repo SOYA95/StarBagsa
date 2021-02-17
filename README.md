@@ -528,10 +528,6 @@ public interface DeliveryService {
 }
 ```
 
-- Deployment.yml 에 ConfigMap 적용
-
-![image](https://user-images.githubusercontent.com/66457249/108235508-3941bd80-7189-11eb-8ed1-14f1738ef3f2.png)
-
 - ConfigMap 생성
 
 ```
