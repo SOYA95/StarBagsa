@@ -453,34 +453,34 @@ cd ..
 cd Payment
 az acr build --registry user05 --image skuser05.azurecr.io/payment:v3 .
 ```
-![delivery_depoly](https://user-images.githubusercontent.com/66457249/108160670-dde1e200-712c-11eb-8d4e-ecbfa4e008ee.PNG)
+![image](https://user-images.githubusercontent.com/66457249/108291987-9021b400-71d6-11eb-9696-5c5e738d2f0c.png)
 
 ```
-kubectl expose deploy delivery --type=ClusterIP --port=8080 -n tutorial
+kubectl expose deploy payment --type=ClusterIP --port=8080 -n tutorial
 ```
 
-- winterone/Delivery/kubernetes/deployment.yml 파일 
+- winterone/Payment/kubernetes/deployment.yml 파일 
 ```yml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: delivery
+  name: payment
   namespace: tutorial
   labels:
-    app: sirenorder
+    app: payment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: delivery
+      app: payment
   template:
     metadata:
       labels:
-        app: delivery
+        app: payment
     spec:
       containers:
-        - name: delivery
-          image: skuser05.azurecr.io/delivery:v1
+        - name: payment
+          image: skuser05.azurecr.io/payment:v3
           ports:
             - containerPort: 8080
           env:
@@ -489,6 +489,7 @@ spec:
                 configMapKeyRef:
                   name: apiurl
                   key: url
+
 ```	  
 - deploy 완료
 ![image](https://user-images.githubusercontent.com/66457249/108244375-7fe7e580-7192-11eb-8399-536522cbe102.png)
