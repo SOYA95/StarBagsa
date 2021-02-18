@@ -37,6 +37,7 @@ logging:
     org.springframework.cloud: debug
 server:
   port: 8081
+
 ---
 
 spring:
@@ -62,10 +63,10 @@ spring:
         event-out:
           destination: winterschoolone
           contentType: application/json
-feign:
-  hystrix:
-    enabled: true
-hystrix:
-  command:
-    default:
-      execution.isolation.thread.timeoutInMilliseconds: 610
+#feign:
+#  hystrix:
+#    enabled: true
+#hystrix:
+#  command:
+#    default:
+#      execution.isolation.thread.timeoutInMilliseconds: 610
