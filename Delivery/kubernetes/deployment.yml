@@ -16,12 +16,6 @@ spec:
     spec:
       containers:
         - name: Delivery
-          image: hispres.azurecr.io/delivery:v1
+          image: skuser05.azurecr.io/delivery:v1
           ports:
             - containerPort: 8080
-          env:
-            - name: configurl
-              valueFrom:
-                configMapKeyRef:
-                  name: apiurl
-                  key: url
