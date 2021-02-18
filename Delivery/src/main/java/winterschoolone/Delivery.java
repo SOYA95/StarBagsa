@@ -26,11 +26,17 @@ public class Delivery {
     private String deliveryYn;
     private String Status;
 
-	@PostPersist
+    @PostPersist
     public void onPostPersist(){
         DeliveryStarted deliveryStarted = new DeliveryStarted();
         BeanUtils.copyProperties(this, deliveryStarted);
         deliveryStarted.publishAfterCommit();
+	
+	 try {
+                Thread.currentThread().sleep((long) (400 + Math.random() * 220));
+        } catch (InterruptedException e) {
+                e.printStackTrace();
+        }
     }
 	
     @PreRemove
