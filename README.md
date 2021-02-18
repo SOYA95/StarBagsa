@@ -558,6 +558,8 @@ kubectl create configmap apiurl --from-literal=url=http://10.0.149.102:8080 -n t
 kubectl expose deploy delivery --type=ClusterIP --port=8080 -n tutorial
 ```
 - delivery시스템에 replica를 자동으로 늘려줄 수 있도록 HPA를 설정한다. 설정은 CPU 사용량이 5%를 넘어서면 replica를 10개까지 늘려준다.
+
+![image](https://user-images.githubusercontent.com/66457249/108304896-4e036d00-71ec-11eb-9ef2-abd85eeaf36e.png)
 ```
 ![image](https://user-images.githubusercontent.com/66457249/108304896-4e036d00-71ec-11eb-9ef2-abd85eeaf36e.png)
 ```
