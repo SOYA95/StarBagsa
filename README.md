@@ -450,8 +450,8 @@ kubectl expose deploy sirenorderhome --type=ClusterIP --port=8080 -n tutorial
 - yml파일 이용한 deploy
 ```
 cd ..
-cd Delivery
-az acr build --registry user05 --image user05.azurecr.io/delivery:v1 .
+cd Payment
+az acr build --registry user05 --image skuser05.azurecr.io/payment:v3 .
 ```
 ![delivery_depoly](https://user-images.githubusercontent.com/66457249/108160670-dde1e200-712c-11eb-8d4e-ecbfa4e008ee.PNG)
 
