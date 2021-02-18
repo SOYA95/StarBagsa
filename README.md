@@ -423,21 +423,22 @@ kubectl expose deploy gateway --type=ClusterIP --port=8080 -n tutorial
 
 cd ..
 cd Delivery
-az acr build --registry skteam01 --image skuser05.azurecr.io/payment:v1 .
+az acr build --registry skteam01 --image skuser05.azurecr.io/delivery:v1 .
 
 kubectl create deploy delivery --image=skuser05.azurecr.io/delivery:v1 -n tutorial
 kubectl expose deploy delivery --type=ClusterIP --port=8080 -n tutorial
 
 cd ..
 cd shop
-az acr build --registry skteam01 --image skuser05.azurecr.io/sirenorderhome:v1 .
+az acr build --registry skteam01 --image skuser05.azurecr.io/shop:v1 .
 
-kubectl create deploy shop --image=skuser05.azurecr.io/sirenorderhome:v1 -n tutorial
+kubectl create deploy shop --image=skuser05.azurecr.io/shop:v1 -n tutorial
 kubectl expose deploy shop --type=ClusterIP --port=8080 -n tutorial
 
 cd ..
 cd sirenorder
 az acr build --registry skteam01 --image skuser05.azurecr.io/sirenorder:v1 .
+
 kubectl create deploy sirenorder --image=skuser05.azurecr.io/sirenorder:v1 -n tutorial
 kubectl expose deploy sirenorder --type=ClusterIP --port=8080 -n tutorial
 
