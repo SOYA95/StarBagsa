@@ -415,29 +415,31 @@ mvn package
 - Docker Image Push/deploy/서비스생성
 ```
 cd gateway
-az acr build --registry skteam01 --image skteam01.azurecr.io/gateway:v1 .
+az acr build --registry skteam01 --image skuser05.azurecr.io/gateway:v1 .
 kubectl create ns tutorial
 
-kubectl create deploy gateway --image=skteam01.azurecr.io/gateway:v1 -n tutorial
+kubectl create deploy gateway --image=skuser05.azurecr.io/gateway:v1 -n tutorial
 kubectl expose deploy gateway --type=ClusterIP --port=8080 -n tutorial
 
 cd ..
-cd payment
-az acr build --registry skteam01 --image skteam01.azurecr.io/payment:v1 .
+cd Delivery
+az acr build --registry skteam01 --image skuser05.azurecr.io/payment:v1 .
 
-kubectl create deploy payment --image=skteam01.azurecr.io/payment:v1 -n tutorial
-kubectl expose deploy payment --type=ClusterIP --port=8080 -n tutorial
+kubectl create deploy delivery --image=skuser05.azurecr.io/delivery:v1 -n tutorial
+kubectl expose deploy delivery --type=ClusterIP --port=8080 -n tutorial
 
 cd ..
 cd shop
-az acr build --registry skteam01 --image skteam01.azurecr.io/sirenorderhome:v1 .
+az acr build --registry skteam01 --image skuser05.azurecr.io/sirenorderhome:v1 .
 
-kubectl create deploy shop --image=skteam01.azurecr.io/sirenorderhome:v1 -n tutorial
+kubectl create deploy shop --image=skuser05.azurecr.io/sirenorderhome:v1 -n tutorial
 kubectl expose deploy shop --type=ClusterIP --port=8080 -n tutorial
 
 cd ..
 cd sirenorder
-az acr build --registry skteam01 --image skteam01.azurecr.io/sirenorderhome:v1 .
+az acr build --registry skteam01 --image skuser05.azurecr.io/sirenorder:v1 .
+kubectl create deploy sirenorder --image=skuser05.azurecr.io/sirenorder:v1 -n tutorial
+kubectl expose deploy sirenorder --type=ClusterIP --port=8080 -n tutorial
 
 cd ..
 cd sirenorderhome
@@ -492,7 +494,7 @@ spec:
 
 ```	  
 - deploy 완료
-![image](https://user-images.githubusercontent.com/66457249/108244375-7fe7e580-7192-11eb-8399-536522cbe102.png)
+![image](https://user-images.githubusercontent.com/66457249/108296345-b4808f00-71dc-11eb-8036-2587ff3fcc54.png)
 
 
 
