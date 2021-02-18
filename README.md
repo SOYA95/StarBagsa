@@ -562,9 +562,8 @@ kubectl expose deploy delivery --type=ClusterIP --port=8080 -n tutorial
 ![image](https://user-images.githubusercontent.com/66457249/108304896-4e036d00-71ec-11eb-9ef2-abd85eeaf36e.png)
 ```
 ![image](https://user-images.githubusercontent.com/66457249/108304896-4e036d00-71ec-11eb-9ef2-abd85eeaf36e.png)
-```
-- siege를 활용해서 워크로드를 2분간 걸어준다. (Cloud 내 siege pod에서 부하줄 것)
-```
+
+
 kubectl exec -it pod/siege -c siege -n tutorial -- /bin/bash
 siege -c100 -t120S -r10 -v --content-type "application/json" 'http://10.0.157.158:8080/deliveries POST {"orderId": 111, "qty":10}'
 ```
